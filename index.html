@@ -1,0 +1,2213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FlowMind AI — Automate Workflows with Intelligence</title>
+
+<!-- Google Fonts: Syne (display) + DM Sans (body) -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+
+<style>
+/* =========================================================
+   CSS CUSTOM PROPERTIES
+   ========================================================= */
+:root {
+  --bg-deep:      #07080d;
+  --bg-mid:       #0d0f1a;
+  --bg-card:      rgba(255,255,255,0.04);
+  --bg-card-h:    rgba(255,255,255,0.07);
+  --border:       rgba(255,255,255,0.08);
+  --border-h:     rgba(255,255,255,0.16);
+
+  --accent-1:     #4f6ef7;   /* electric blue */
+  --accent-2:     #8b5cf6;   /* violet */
+  --accent-3:     #06d6a0;   /* mint */
+  --accent-warm:  #f97316;   /* amber for highlights */
+
+  --grad-hero:    linear-gradient(135deg, #4f6ef7 0%, #8b5cf6 50%, #06d6a0 100%);
+  --grad-accent:  linear-gradient(135deg, #4f6ef7, #8b5cf6);
+  --grad-card:    linear-gradient(145deg, rgba(79,110,247,.12), rgba(139,92,246,.06));
+
+  --text-primary:   #f0f2ff;
+  --text-secondary: #8b8fa8;
+  --text-muted:     #545870;
+
+  --font-display: 'Syne', sans-serif;
+  --font-body:    'DM Sans', sans-serif;
+
+  --radius-sm:  8px;
+  --radius-md:  14px;
+  --radius-lg:  22px;
+  --radius-xl:  32px;
+
+  --shadow-glow: 0 0 60px rgba(79,110,247,.25);
+  --shadow-card: 0 4px 32px rgba(0,0,0,.4);
+
+  --nav-h: 68px;
+  --max-w: 1160px;
+
+  --ease-out: cubic-bezier(.16,1,.3,1);
+}
+
+/* =========================================================
+   RESET + BASE
+   ========================================================= */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+img { display: block; max-width: 100%; }
+
+a { text-decoration: none; color: inherit; }
+
+ul { list-style: none; }
+
+/* =========================================================
+   UTILITY
+   ========================================================= */
+.container {
+  width: 100%;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+.section { padding: 108px 0; }
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--accent-1);
+  background: rgba(79,110,247,.1);
+  border: 1px solid rgba(79,110,247,.25);
+  padding: 6px 14px;
+  border-radius: 100px;
+  margin-bottom: 24px;
+}
+
+.section-label::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--accent-1);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--accent-1);
+}
+
+.section-heading {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -.02em;
+  color: var(--text-primary);
+}
+
+.section-sub {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  max-width: 520px;
+  margin-top: 16px;
+  line-height: 1.75;
+}
+
+.grad-text {
+  background: var(--grad-hero);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 26px;
+  border-radius: 10px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: transform .2s var(--ease-out), box-shadow .2s var(--ease-out), opacity .2s;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: var(--grad-accent);
+  color: #fff;
+  box-shadow: 0 4px 24px rgba(79,110,247,.45);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(79,110,247,.6);
+}
+
+.btn-ghost {
+  background: rgba(255,255,255,.07);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+.btn-ghost:hover {
+  background: rgba(255,255,255,.11);
+  border-color: var(--border-h);
+  transform: translateY(-2px);
+}
+
+/* =========================================================
+   NOISE TEXTURE OVERLAY
+   ========================================================= */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: .025;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  height: var(--nav-h);
+  transition: background .3s, border-color .3s, backdrop-filter .3s;
+}
+
+.nav.scrolled {
+  background: rgba(7,8,13,.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  gap: 40px;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: -.02em;
+  margin-right: auto;
+}
+
+.nav-logo-icon {
+  width: 34px; height: 34px;
+  background: var(--grad-accent);
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 18px rgba(79,110,247,.5);
+}
+
+.nav-logo-icon svg { width: 18px; height: 18px; }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-links a {
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  padding: 7px 13px;
+  border-radius: 8px;
+  transition: color .2s, background .2s;
+}
+
+.nav-links a:hover {
+  color: var(--text-primary);
+  background: rgba(255,255,255,.06);
+}
+
+.nav-actions { display: flex; align-items: center; gap: 10px; }
+
+.nav-login {
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  padding: 7px 14px;
+  border-radius: 8px;
+  transition: color .2s, background .2s;
+}
+.nav-login:hover { color: var(--text-primary); background: rgba(255,255,255,.06); }
+
+.nav-cta {
+  padding: 9px 20px;
+  font-size: 14px;
+}
+
+/* Mobile hamburger */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 6px;
+  background: none;
+  border: none;
+}
+.nav-hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--text-secondary);
+  border-radius: 4px;
+  transition: .3s;
+}
+
+.nav-mobile {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  background: rgba(7,8,13,.95);
+  backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 28px 24px;
+}
+.nav-mobile.open { display: flex; }
+.nav-mobile a {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.nav-mobile a:last-child { border-bottom: none; }
+.nav-mobile a:hover { color: var(--text-primary); }
+
+/* =========================================================
+   HERO
+   ========================================================= */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 140px 28px 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background orbs */
+.hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+}
+.hero-orb-1 {
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(79,110,247,.18) 0%, transparent 70%);
+  top: -100px; left: -150px;
+}
+.hero-orb-2 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(139,92,246,.15) 0%, transparent 70%);
+  top: 0; right: -120px;
+}
+.hero-orb-3 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(6,214,160,.1) 0%, transparent 70%);
+  bottom: 100px; left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Grid lines background */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.022) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 0%, transparent 100%);
+}
+
+.hero-content { position: relative; z-index: 2; max-width: 820px; }
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(79,110,247,.12);
+  border: 1px solid rgba(79,110,247,.3);
+  color: #a5b4fc;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 7px 16px;
+  border-radius: 100px;
+  margin-bottom: 36px;
+  animation: fadeUp .8s var(--ease-out) both;
+}
+
+.hero-badge-dot {
+  width: 7px; height: 7px;
+  background: var(--accent-3);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--accent-3);
+  animation: pulse 2s ease infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: .6; transform: scale(.8); }
+}
+
+.hero-h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 6.5vw, 5rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -.035em;
+  margin-bottom: 26px;
+  animation: fadeUp .9s var(--ease-out) .1s both;
+}
+
+.hero-sub {
+  font-size: clamp(1rem, 2vw, 1.18rem);
+  color: var(--text-secondary);
+  max-width: 560px;
+  margin: 0 auto 44px;
+  line-height: 1.8;
+  animation: fadeUp 1s var(--ease-out) .2s both;
+}
+
+.hero-ctas {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  animation: fadeUp 1s var(--ease-out) .3s both;
+}
+
+.hero-ctas .btn-primary {
+  padding: 15px 32px;
+  font-size: 15.5px;
+}
+
+.hero-ctas .btn-ghost {
+  padding: 15px 28px;
+  font-size: 15.5px;
+}
+
+.hero-note {
+  margin-top: 20px;
+  font-size: 13px;
+  color: var(--text-muted);
+  animation: fadeUp 1s var(--ease-out) .4s both;
+}
+
+/* Dashboard mockup */
+.hero-mockup {
+  position: relative;
+  margin-top: 72px;
+  animation: fadeUp 1.2s var(--ease-out) .5s both;
+  z-index: 2;
+}
+
+.hero-mockup-wrap {
+  position: relative;
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 4px;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.04), var(--shadow-card), var(--shadow-glow);
+  overflow: hidden;
+}
+
+.hero-mockup-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--border);
+}
+
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.dot-r { background: #ff5f57; }
+.dot-y { background: #febc2e; }
+.dot-g { background: #28c840; }
+
+.mockup-url {
+  flex: 1;
+  background: rgba(255,255,255,.06);
+  border-radius: 6px;
+  padding: 5px 12px;
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: center;
+  max-width: 260px;
+  margin: 0 auto;
+}
+
+.mockup-body {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  min-height: 340px;
+}
+
+.mockup-sidebar {
+  border-right: 1px solid var(--border);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mockup-sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.mockup-sidebar-item.active {
+  background: rgba(79,110,247,.14);
+  color: #a5b4fc;
+}
+
+.mockup-sidebar-icon {
+  width: 18px; height: 18px;
+  background: currentColor;
+  border-radius: 4px;
+  opacity: .5;
+}
+
+.mockup-main {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.mockup-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.mockup-stat-card {
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.mockup-stat-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.mockup-stat-val {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.mockup-stat-val.blue { color: var(--accent-1); }
+.mockup-stat-val.violet { color: var(--accent-2); }
+.mockup-stat-val.mint { color: var(--accent-3); }
+
+.mockup-stat-change {
+  font-size: 10px;
+  color: var(--accent-3);
+  margin-top: 3px;
+}
+
+/* Workflow nodes */
+.mockup-flow {
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  overflow: hidden;
+}
+
+.flow-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  position: relative;
+}
+
+.flow-node:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 17px;
+  width: calc(50% + 8px);
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+  z-index: 1;
+}
+
+.flow-node-circle {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+.flow-node-circle.blue { background: rgba(79,110,247,.2); border: 1px solid rgba(79,110,247,.4); }
+.flow-node-circle.violet { background: rgba(139,92,246,.2); border: 1px solid rgba(139,92,246,.4); }
+.flow-node-circle.mint { background: rgba(6,214,160,.2); border: 1px solid rgba(6,214,160,.4); }
+.flow-node-circle.orange { background: rgba(249,115,22,.2); border: 1px solid rgba(249,115,22,.4); }
+
+.flow-node-label { font-size: 10px; color: var(--text-muted); text-align: center; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================================
+   SOCIAL PROOF
+   ========================================================= */
+.social-proof {
+  padding: 52px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.social-proof-inner {
+  text-align: center;
+}
+
+.social-proof-label {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 500;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  margin-bottom: 32px;
+}
+
+.social-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+
+.social-logo {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: -.02em;
+  transition: color .2s, opacity .2s;
+  opacity: .55;
+}
+.social-logo:hover { opacity: .85; color: var(--text-primary); }
+
+/* =========================================================
+   FEATURES
+   ========================================================= */
+.features { background: var(--bg-mid); }
+
+.features-header { text-align: center; margin-bottom: 68px; }
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.feature-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color .3s, transform .3s var(--ease-out), background .3s;
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: var(--grad-accent);
+  opacity: 0;
+  transition: opacity .3s;
+}
+
+.feature-card:hover {
+  background: var(--bg-card-h);
+  border-color: var(--border-h);
+  transform: translateY(-4px);
+}
+.feature-card:hover::before { opacity: 1; }
+
+.feature-icon {
+  width: 48px; height: 48px;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 22px;
+  font-size: 22px;
+}
+
+.feature-icon.blue   { background: rgba(79,110,247,.15); }
+.feature-icon.violet { background: rgba(139,92,246,.15); }
+.feature-icon.mint   { background: rgba(6,214,160,.15); }
+.feature-icon.orange { background: rgba(249,115,22,.15); }
+.feature-icon.pink   { background: rgba(236,72,153,.15); }
+.feature-icon.cyan   { background: rgba(6,182,212,.15); }
+
+.feature-title {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  letter-spacing: -.01em;
+}
+
+.feature-desc {
+  font-size: 14.5px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* =========================================================
+   DEMO SECTION
+   ========================================================= */
+.demo-section { text-align: center; position: relative; overflow: hidden; }
+
+.demo-section-orb {
+  position: absolute;
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(79,110,247,.08) 0%, transparent 70%);
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.demo-header { margin-bottom: 56px; }
+.demo-header .section-sub { margin: 16px auto 0; }
+
+.demo-dashboard {
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 28px;
+  max-width: 860px;
+  margin: 0 auto 44px;
+  position: relative;
+  box-shadow: 0 0 80px rgba(79,110,247,.1);
+}
+
+.demo-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.demo-top-bar-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.demo-filter-pills {
+  display: flex;
+  gap: 8px;
+}
+
+.demo-pill {
+  padding: 5px 14px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 500;
+  background: rgba(255,255,255,.06);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: .2s;
+}
+.demo-pill.active {
+  background: rgba(79,110,247,.2);
+  border-color: rgba(79,110,247,.4);
+  color: #a5b4fc;
+}
+
+.demo-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.demo-card {
+  background: rgba(255,255,255,.05);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  text-align: left;
+}
+
+.demo-card-label { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; }
+.demo-card-value {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 800;
+}
+.demo-card-value.blue   { color: var(--accent-1); }
+.demo-card-value.violet { color: var(--accent-2); }
+.demo-card-value.mint   { color: var(--accent-3); }
+.demo-card-value.orange { color: var(--accent-warm); }
+.demo-card-badge {
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--accent-3);
+}
+
+/* Chart bars */
+.demo-chart {
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  height: 160px;
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.chart-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; height: 100%; justify-content: flex-end; }
+.chart-bar {
+  width: 100%;
+  border-radius: 6px 6px 0 0;
+  transition: opacity .2s;
+}
+.chart-bar:hover { opacity: .7; }
+.chart-bar-label { font-size: 10px; color: var(--text-muted); }
+
+.demo-cta { margin-top: 12px; }
+
+.demo-cta .btn-primary {
+  padding: 14px 30px;
+  font-size: 15px;
+}
+
+/* =========================================================
+   HOW IT WORKS
+   ========================================================= */
+.how-it-works { background: var(--bg-mid); text-align: center; }
+
+.hiw-header { margin-bottom: 72px; }
+.hiw-header .section-sub { margin: 16px auto 0; }
+
+.hiw-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  position: relative;
+}
+
+.hiw-steps::before {
+  content: '';
+  position: absolute;
+  top: 60px;
+  left: calc(16.66% + 20px);
+  right: calc(16.66% + 20px);
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-3));
+  opacity: .35;
+}
+
+.hiw-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+}
+
+.hiw-step-num {
+  width: 60px; height: 60px;
+  border-radius: 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 800;
+  position: relative;
+  z-index: 2;
+  transition: .3s var(--ease-out);
+}
+
+.hiw-step:nth-child(1) .hiw-step-num { box-shadow: 0 0 30px rgba(79,110,247,.3); color: var(--accent-1); border-color: rgba(79,110,247,.3); }
+.hiw-step:nth-child(2) .hiw-step-num { box-shadow: 0 0 30px rgba(139,92,246,.3); color: var(--accent-2); border-color: rgba(139,92,246,.3); }
+.hiw-step:nth-child(3) .hiw-step-num { box-shadow: 0 0 30px rgba(6,214,160,.3); color: var(--accent-3); border-color: rgba(6,214,160,.3); }
+
+.hiw-step:hover .hiw-step-num { transform: scale(1.1); }
+
+.hiw-step-icon {
+  font-size: 36px;
+  width: 80px; height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  transition: .3s var(--ease-out);
+}
+
+.hiw-step:hover .hiw-step-icon { transform: translateY(-6px); }
+
+.hiw-step-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.hiw-step-desc {
+  font-size: 14.5px;
+  color: var(--text-secondary);
+  line-height: 1.75;
+  max-width: 240px;
+}
+
+/* =========================================================
+   PRICING
+   ========================================================= */
+.pricing { text-align: center; position: relative; overflow: hidden; }
+
+.pricing-orb {
+  position: absolute;
+  width: 800px; height: 800px;
+  background: radial-gradient(circle, rgba(139,92,246,.07) 0%, transparent 70%);
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.pricing-header { margin-bottom: 64px; }
+.pricing-header .section-sub { margin: 16px auto 0; }
+
+.pricing-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 6px 20px;
+  margin-bottom: 52px;
+  font-size: 14px;
+}
+
+.pricing-toggle-label.active { color: var(--text-primary); font-weight: 600; }
+.pricing-toggle-label { color: var(--text-secondary); transition: color .2s; cursor: pointer; }
+
+.toggle-switch {
+  width: 38px; height: 22px;
+  background: var(--grad-accent);
+  border-radius: 100px;
+  position: relative;
+  cursor: pointer;
+}
+.toggle-switch::after {
+  content: '';
+  position: absolute;
+  width: 16px; height: 16px;
+  background: white;
+  border-radius: 50%;
+  top: 3px; left: 3px;
+  transition: .25s;
+}
+.toggle-switch.yearly::after { left: 19px; }
+
+.save-badge {
+  background: rgba(6,214,160,.15);
+  border: 1px solid rgba(6,214,160,.3);
+  color: var(--accent-3);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 100px;
+}
+
+.pricing-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 980px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+.pricing-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 36px 30px;
+  text-align: left;
+  position: relative;
+  transition: transform .3s var(--ease-out), border-color .3s, box-shadow .3s;
+}
+
+.pricing-card.featured {
+  border-color: rgba(79,110,247,.4);
+  background: linear-gradient(145deg, rgba(79,110,247,.1), rgba(139,92,246,.06));
+  box-shadow: 0 0 60px rgba(79,110,247,.15);
+  transform: scale(1.04);
+}
+
+.pricing-card:hover {
+  transform: translateY(-6px);
+}
+
+.pricing-card.featured:hover {
+  transform: scale(1.04) translateY(-6px);
+}
+
+.pricing-badge {
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--grad-accent);
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 16px;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+
+.pricing-plan {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.pricing-price {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.pricing-currency { font-size: 20px; font-weight: 600; color: var(--text-secondary); }
+.pricing-amount {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 800;
+  line-height: 1;
+}
+.pricing-period { font-size: 14px; color: var(--text-muted); margin-left: 2px; }
+
+.pricing-desc {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 28px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--border);
+  line-height: 1.6;
+}
+
+.pricing-features-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+
+.pricing-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.pricing-feature-item.included { color: var(--text-primary); }
+
+.check-icon {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 10px;
+}
+.check-icon.yes { background: rgba(6,214,160,.2); color: var(--accent-3); }
+.check-icon.no  { background: rgba(255,255,255,.06); color: var(--text-muted); }
+
+.pricing-card .btn {
+  width: 100%;
+  justify-content: center;
+}
+
+/* =========================================================
+   TESTIMONIALS
+   ========================================================= */
+.testimonials { background: var(--bg-mid); }
+
+.testimonials-header { text-align: center; margin-bottom: 64px; }
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.testi-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  transition: transform .3s var(--ease-out), border-color .3s;
+}
+
+.testi-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-h);
+}
+
+.testi-stars {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 18px;
+}
+
+.star { color: #fbbf24; font-size: 14px; }
+
+.testi-quote {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.75;
+  margin-bottom: 24px;
+  font-style: italic;
+}
+
+.testi-quote::before { content: '"'; font-size: 24px; color: var(--accent-1); line-height: 0; vertical-align: -8px; margin-right: 4px; }
+
+.testi-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.testi-avatar {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: var(--font-display);
+  flex-shrink: 0;
+}
+
+.testi-avatar.a1 { background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); }
+.testi-avatar.a2 { background: linear-gradient(135deg, var(--accent-2), #ec4899); }
+.testi-avatar.a3 { background: linear-gradient(135deg, var(--accent-3), var(--accent-1)); }
+
+.testi-name { font-weight: 600; font-size: 15px; }
+.testi-role { font-size: 13px; color: var(--text-muted); }
+
+/* =========================================================
+   FAQ
+   ========================================================= */
+.faq { text-align: center; }
+
+.faq-header { margin-bottom: 64px; }
+.faq-header .section-sub { margin: 16px auto 0; }
+
+.faq-list {
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.faq-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: border-color .2s;
+}
+
+.faq-item.open { border-color: rgba(79,110,247,.3); }
+
+.faq-question {
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 500;
+  text-align: left;
+  padding: 20px 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  transition: color .2s;
+}
+
+.faq-question:hover { color: var(--accent-1); }
+
+.faq-chevron {
+  width: 22px; height: 22px;
+  border-radius: 6px;
+  background: rgba(255,255,255,.07);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 12px;
+  transition: transform .3s var(--ease-out), background .2s;
+}
+
+.faq-item.open .faq-chevron {
+  transform: rotate(180deg);
+  background: rgba(79,110,247,.2);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .4s var(--ease-out);
+}
+
+.faq-answer-inner {
+  padding: 0 24px 22px;
+  font-size: 14.5px;
+  color: var(--text-secondary);
+  line-height: 1.75;
+  text-align: left;
+}
+
+/* =========================================================
+   FINAL CTA
+   ========================================================= */
+.final-cta {
+  padding: 120px 28px;
+  text-align: center;
+  background: var(--bg-mid);
+  position: relative;
+  overflow: hidden;
+}
+
+.final-cta-orb-1 {
+  position: absolute;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(79,110,247,.15) 0%, transparent 70%);
+  left: -150px; top: -100px;
+  pointer-events: none;
+}
+
+.final-cta-orb-2 {
+  position: absolute;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(139,92,246,.12) 0%, transparent 70%);
+  right: -150px; bottom: -100px;
+  pointer-events: none;
+}
+
+.final-cta-inner { position: relative; z-index: 2; max-width: 680px; margin: 0 auto; }
+
+.final-cta-heading {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -.03em;
+  margin-bottom: 22px;
+}
+
+.final-cta-sub {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  line-height: 1.75;
+  margin-bottom: 44px;
+}
+
+.final-cta-actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.final-cta-actions .btn-primary {
+  padding: 15px 32px;
+  font-size: 15.5px;
+}
+
+.final-cta-note {
+  margin-top: 18px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 64px 0 40px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 56px;
+}
+
+.footer-brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+.footer-brand-desc {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  max-width: 240px;
+  margin-bottom: 24px;
+}
+
+.footer-socials {
+  display: flex;
+  gap: 10px;
+}
+
+.social-btn {
+  width: 36px; height: 36px;
+  border-radius: 9px;
+  background: rgba(255,255,255,.07);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  color: var(--text-secondary);
+  transition: .2s;
+  cursor: pointer;
+  text-decoration: none;
+}
+.social-btn:hover { background: rgba(79,110,247,.2); border-color: rgba(79,110,247,.4); color: var(--text-primary); }
+
+.footer-col-title {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  margin-bottom: 18px;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-links a {
+  font-size: 14px;
+  color: var(--text-secondary);
+  transition: color .2s;
+}
+.footer-links a:hover { color: var(--text-primary); }
+
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 28px;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-copyright { font-size: 13px; color: var(--text-muted); }
+
+.footer-legal {
+  display: flex;
+  gap: 20px;
+}
+.footer-legal a {
+  font-size: 13px;
+  color: var(--text-muted);
+  transition: color .2s;
+}
+.footer-legal a:hover { color: var(--text-secondary); }
+
+/* =========================================================
+   SCROLL REVEAL ANIMATION
+   ========================================================= */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .7s var(--ease-out), transform .7s var(--ease-out);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: .1s; }
+.reveal-delay-2 { transition-delay: .2s; }
+.reveal-delay-3 { transition-delay: .3s; }
+.reveal-delay-4 { transition-delay: .4s; }
+.reveal-delay-5 { transition-delay: .5s; }
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width: 900px) {
+  .nav-links, .nav-login { display: none; }
+  .nav-hamburger { display: flex; }
+
+  .features-grid { grid-template-columns: 1fr 1fr; }
+  .pricing-cards { grid-template-columns: 1fr; max-width: 420px; }
+  .pricing-card.featured { transform: scale(1); }
+  .testimonials-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+  .hiw-steps { grid-template-columns: 1fr; gap: 40px; }
+  .hiw-steps::before { display: none; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .demo-cards { grid-template-columns: repeat(2, 1fr); }
+  .mockup-body { grid-template-columns: 1fr; }
+  .mockup-sidebar { display: none; }
+}
+
+@media (max-width: 600px) {
+  .section { padding: 72px 0; }
+  .features-grid { grid-template-columns: 1fr; }
+  .demo-cards { grid-template-columns: 1fr 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .social-logos { gap: 28px; }
+  .hero-ctas { gap: 10px; }
+  .hero-ctas .btn { padding: 13px 22px; font-size: 14.5px; }
+  .mockup-stats { grid-template-columns: repeat(3, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<!-- =========================================================
+     NAVIGATION
+     ========================================================= -->
+<header>
+  <nav class="nav" id="navbar">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="#" class="nav-logo">
+          <div class="nav-logo-icon">
+            <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 2L14.5 5.5V12.5L9 16L3.5 12.5V5.5L9 2Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+              <path d="M9 6L11.5 7.5V10.5L9 12L6.5 10.5V7.5L9 6Z" fill="white"/>
+            </svg>
+          </div>
+          FlowMind AI
+        </a>
+
+        <ul class="nav-links">
+          <li><a href="#features">Product</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#demo">Demo</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <a href="#" class="nav-login">Login</a>
+          <a href="#" class="btn btn-primary nav-cta">Start Free Trial →</a>
+        </div>
+
+        <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <!-- Mobile menu -->
+    <div class="nav-mobile" id="mobile-menu">
+      <a href="#features">Product</a>
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#demo">Demo</a>
+      <a href="#">Login</a>
+      <a href="#" style="color:var(--accent-1); font-weight:600;">Start Free Trial →</a>
+    </div>
+  </nav>
+</header>
+
+<!-- =========================================================
+     HERO
+     ========================================================= -->
+<section class="hero">
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-orb hero-orb-3"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      Now with GPT-4o & Claude integration — ship smarter
+    </div>
+
+    <h1 class="hero-h1">
+      Your workflows,<br/>
+      <span class="grad-text">automated by AI.</span>
+    </h1>
+
+    <p class="hero-sub">
+      FlowMind AI connects your tools, learns your processes, and automates the repetitive work — so your team can focus on what actually matters.
+    </p>
+
+    <div class="hero-ctas">
+      <a href="#pricing" class="btn btn-primary">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1.5L13.5 5V11L8 14.5L2.5 11V5L8 1.5Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+        Start Free Trial — No credit card
+      </a>
+      <a href="#demo" class="btn btn-ghost">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.4"/><path d="M6.5 5.5L10.5 8L6.5 10.5V5.5Z" fill="currentColor"/></svg>
+        Watch Demo
+      </a>
+    </div>
+
+    <p class="hero-note">14-day free trial · No credit card · Cancel anytime</p>
+  </div>
+
+  <!-- Dashboard Mockup -->
+  <div class="hero-mockup container">
+    <div class="hero-mockup-wrap">
+      <div class="hero-mockup-bar">
+        <div class="dot dot-r"></div>
+        <div class="dot dot-y"></div>
+        <div class="dot dot-g"></div>
+        <div class="mockup-url">app.flowmind.ai / dashboard</div>
+      </div>
+      <div class="mockup-body">
+        <div class="mockup-sidebar">
+          <div class="mockup-sidebar-item active">
+            <div class="mockup-sidebar-icon" style="background:var(--accent-1);border-radius:4px;opacity:1;"></div>
+            Dashboard
+          </div>
+          <div class="mockup-sidebar-item">
+            <div class="mockup-sidebar-icon"></div>
+            Workflows
+          </div>
+          <div class="mockup-sidebar-item">
+            <div class="mockup-sidebar-icon"></div>
+            Automations
+          </div>
+          <div class="mockup-sidebar-item">
+            <div class="mockup-sidebar-icon"></div>
+            Analytics
+          </div>
+          <div class="mockup-sidebar-item">
+            <div class="mockup-sidebar-icon"></div>
+            Integrations
+          </div>
+          <div class="mockup-sidebar-item">
+            <div class="mockup-sidebar-icon"></div>
+            AI Agents
+          </div>
+          <div class="mockup-sidebar-item">
+            <div class="mockup-sidebar-icon"></div>
+            Team
+          </div>
+          <div class="mockup-sidebar-item">
+            <div class="mockup-sidebar-icon"></div>
+            Settings
+          </div>
+        </div>
+        <div class="mockup-main">
+          <div class="mockup-stats">
+            <div class="mockup-stat-card">
+              <div class="mockup-stat-label">Tasks Automated</div>
+              <div class="mockup-stat-val blue">12,847</div>
+              <div class="mockup-stat-change">↑ 23% this week</div>
+            </div>
+            <div class="mockup-stat-card">
+              <div class="mockup-stat-label">Hours Saved</div>
+              <div class="mockup-stat-val violet">428 hrs</div>
+              <div class="mockup-stat-change">↑ 18% this week</div>
+            </div>
+            <div class="mockup-stat-card">
+              <div class="mockup-stat-label">Active Flows</div>
+              <div class="mockup-stat-val mint">64</div>
+              <div class="mockup-stat-change">↑ 8 new today</div>
+            </div>
+          </div>
+          <div class="mockup-flow">
+            <div class="flow-node">
+              <div class="flow-node-circle blue">📥</div>
+              <div class="flow-node-label">Trigger</div>
+            </div>
+            <div class="flow-node">
+              <div class="flow-node-circle violet">🧠</div>
+              <div class="flow-node-label">AI Parse</div>
+            </div>
+            <div class="flow-node">
+              <div class="flow-node-circle mint">⚙️</div>
+              <div class="flow-node-label">Automate</div>
+            </div>
+            <div class="flow-node">
+              <div class="flow-node-circle orange">📤</div>
+              <div class="flow-node-label">Output</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     SOCIAL PROOF
+     ========================================================= -->
+<section class="social-proof">
+  <div class="container">
+    <div class="social-proof-inner">
+      <p class="social-proof-label">Trusted by 2,400+ teams at forward-thinking companies</p>
+      <div class="social-logos">
+        <span class="social-logo">Vercel</span>
+        <span class="social-logo">Stripe</span>
+        <span class="social-logo">Linear</span>
+        <span class="social-logo">Notion</span>
+        <span class="social-logo">Loom</span>
+        <span class="social-logo">Mercury</span>
+        <span class="social-logo">Figma</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     FEATURES
+     ========================================================= -->
+<section class="features section" id="features">
+  <div class="container">
+    <div class="features-header reveal">
+      <div class="section-label">Features</div>
+      <h2 class="section-heading">Everything you need to<br/><span class="grad-text">automate at scale</span></h2>
+      <p class="section-sub" style="margin: 16px auto 0;">Built for teams that move fast. FlowMind AI handles the complexity so you don't have to.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-icon blue">🔮</div>
+        <div class="feature-title">AI Workflow Builder</div>
+        <p class="feature-desc">Describe your process in plain English. FlowMind AI creates a complete automated workflow in seconds — no code required.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <div class="feature-icon violet">⚡</div>
+        <div class="feature-title">Smart Automation</div>
+        <p class="feature-desc">Trigger actions based on events, conditions, or schedules. Our AI learns patterns in your data to optimize timing automatically.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-3">
+        <div class="feature-icon mint">📊</div>
+        <div class="feature-title">Real-Time Analytics</div>
+        <p class="feature-desc">Live dashboards track every workflow execution. Spot bottlenecks instantly with AI-powered anomaly detection.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-icon orange">👥</div>
+        <div class="feature-title">Team Collaboration</div>
+        <p class="feature-desc">Build, share, and iterate on workflows together. Role-based permissions, audit logs, and real-time co-editing built-in.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <div class="feature-icon pink">🔗</div>
+        <div class="feature-title">API Integrations</div>
+        <p class="feature-desc">Connect to 500+ apps including Salesforce, Slack, GitHub, HubSpot, and more. One-click OAuth, no API keys to manage.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-3">
+        <div class="feature-icon cyan">🤖</div>
+        <div class="feature-title">Custom AI Agents</div>
+        <p class="feature-desc">Deploy autonomous agents that browse, extract, analyze, and act — trained on your business logic and data.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     DEMO SECTION
+     ========================================================= -->
+<section class="demo-section section" id="demo">
+  <div class="demo-section-orb"></div>
+  <div class="container">
+    <div class="demo-header reveal">
+      <div class="section-label">Live Product</div>
+      <h2 class="section-heading">See your data come<br/><span class="grad-text">alive in real-time</span></h2>
+      <p class="section-sub">Watch FlowMind AI process thousands of tasks per hour, surface insights instantly, and keep your team in sync.</p>
+    </div>
+
+    <div class="demo-dashboard reveal">
+      <div class="demo-top-bar">
+        <div class="demo-top-bar-title">Automation Overview</div>
+        <div class="demo-filter-pills">
+          <div class="demo-pill active">Today</div>
+          <div class="demo-pill">7 Days</div>
+          <div class="demo-pill">30 Days</div>
+        </div>
+      </div>
+      <div class="demo-cards">
+        <div class="demo-card">
+          <div class="demo-card-label">Flows Running</div>
+          <div class="demo-card-value blue">1,284</div>
+          <div class="demo-card-badge">↑ 12% vs yesterday</div>
+        </div>
+        <div class="demo-card">
+          <div class="demo-card-label">Tasks Executed</div>
+          <div class="demo-card-value violet">48,032</div>
+          <div class="demo-card-badge">↑ 8% vs yesterday</div>
+        </div>
+        <div class="demo-card">
+          <div class="demo-card-label">Success Rate</div>
+          <div class="demo-card-value mint">99.7%</div>
+          <div class="demo-card-badge">↑ 0.2% improvement</div>
+        </div>
+        <div class="demo-card">
+          <div class="demo-card-label">Time Saved</div>
+          <div class="demo-card-value orange">127 hrs</div>
+          <div class="demo-card-badge">Today alone</div>
+        </div>
+      </div>
+      <!-- Bar Chart -->
+      <div class="demo-chart">
+        <div class="chart-bar-wrap"><div class="chart-bar" style="height:55%;background:linear-gradient(to top,var(--accent-1),rgba(79,110,247,.4));"></div><div class="chart-bar-label">Mon</div></div>
+        <div class="chart-bar-wrap"><div class="chart-bar" style="height:70%;background:linear-gradient(to top,var(--accent-1),rgba(79,110,247,.4));"></div><div class="chart-bar-label">Tue</div></div>
+        <div class="chart-bar-wrap"><div class="chart-bar" style="height:62%;background:linear-gradient(to top,var(--accent-1),rgba(79,110,247,.4));"></div><div class="chart-bar-label">Wed</div></div>
+        <div class="chart-bar-wrap"><div class="chart-bar" style="height:85%;background:linear-gradient(to top,var(--accent-2),rgba(139,92,246,.4));"></div><div class="chart-bar-label">Thu</div></div>
+        <div class="chart-bar-wrap"><div class="chart-bar" style="height:78%;background:linear-gradient(to top,var(--accent-2),rgba(139,92,246,.4));"></div><div class="chart-bar-label">Fri</div></div>
+        <div class="chart-bar-wrap"><div class="chart-bar" style="height:90%;background:linear-gradient(to top,var(--accent-3),rgba(6,214,160,.4));"></div><div class="chart-bar-label">Sat</div></div>
+        <div class="chart-bar-wrap"><div class="chart-bar" style="height:95%;background:linear-gradient(to top,var(--accent-3),rgba(6,214,160,.4));"></div><div class="chart-bar-label">Sun</div></div>
+      </div>
+    </div>
+
+    <div class="demo-cta reveal">
+      <a href="#" class="btn btn-primary">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.4"/><path d="M6.5 5.5L10.5 8L6.5 10.5V5.5Z" fill="currentColor"/></svg>
+        Watch 2-Minute Demo
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     HOW IT WORKS
+     ========================================================= -->
+<section class="how-it-works section">
+  <div class="container">
+    <div class="hiw-header reveal">
+      <div class="section-label">How It Works</div>
+      <h2 class="section-heading">Up and running<br/><span class="grad-text">in under 5 minutes</span></h2>
+      <p class="section-sub">No complex setup. No engineering required. Just connect, create, and let AI do the heavy lifting.</p>
+    </div>
+    <div class="hiw-steps">
+      <div class="hiw-step reveal reveal-delay-1">
+        <div class="hiw-step-num">01</div>
+        <div class="hiw-step-icon">🔌</div>
+        <div class="hiw-step-title">Connect Your Tools</div>
+        <p class="hiw-step-desc">Link your existing stack in one click. FlowMind AI supports 500+ integrations out of the box, from Slack to Salesforce.</p>
+      </div>
+      <div class="hiw-step reveal reveal-delay-2">
+        <div class="hiw-step-num">02</div>
+        <div class="hiw-step-icon">🧩</div>
+        <div class="hiw-step-title">Create a Workflow</div>
+        <p class="hiw-step-desc">Use our visual builder or just describe what you want in plain language. FlowMind AI generates and validates the flow for you.</p>
+      </div>
+      <div class="hiw-step reveal reveal-delay-3">
+        <div class="hiw-step-num">03</div>
+        <div class="hiw-step-icon">🚀</div>
+        <div class="hiw-step-title">Let AI Automate</div>
+        <p class="hiw-step-desc">Activate your flow and watch FlowMind AI handle the work around the clock — learning and improving with every execution.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     PRICING
+     ========================================================= -->
+<section class="pricing section" id="pricing">
+  <div class="pricing-orb"></div>
+  <div class="container">
+    <div class="pricing-header reveal">
+      <div class="section-label">Pricing</div>
+      <h2 class="section-heading">Simple, transparent<br/><span class="grad-text">pricing for every team</span></h2>
+      <p class="section-sub">Start free. Upgrade when you're ready. No hidden fees, ever.</p>
+    </div>
+
+    <div style="text-align:center" class="reveal">
+      <div class="pricing-toggle">
+        <span class="pricing-toggle-label active">Monthly</span>
+        <div class="toggle-switch" id="billing-toggle"></div>
+        <span class="pricing-toggle-label">Yearly <span class="save-badge">Save 20%</span></span>
+      </div>
+    </div>
+
+    <div class="pricing-cards">
+      <!-- Starter -->
+      <div class="pricing-card reveal reveal-delay-1">
+        <div class="pricing-plan">Starter</div>
+        <div class="pricing-price">
+          <span class="pricing-currency">$</span>
+          <span class="pricing-amount" data-monthly="19" data-yearly="15">19</span>
+          <span class="pricing-period">/month</span>
+        </div>
+        <p class="pricing-desc">Perfect for freelancers and solo founders automating their first workflows.</p>
+        <ul class="pricing-features-list">
+          <li class="pricing-feature-item included"><span class="check-icon yes">✓</span>Up to 5 active workflows</li>
+          <li class="pricing-feature-item included"><span class="check-icon yes">✓</span>1,000 task executions/mo</li>
+          <li class="pricing-feature-item included"><span class="check-icon yes">✓</span>50+ integrations</li>
+          <li class="pricing-feature-item included"><span class="check-icon yes">✓</span>AI Workflow Builder</li>
+          <li class="pricing-feature-item included"><span class="check-icon yes">✓</span>Email support</li>
+          <li class="pricing-feature-item"><span class="check-icon no">–</span>Team collaboration</li>
+          <li class="pricing-feature-item"><span class="check-icon no">–</span>Custom AI Agents</li>
+          <li class="pricing-feature-item"><span class="check-icon no">–</span>Priority support</li>
+        </ul>
+        <a href="#" class="btn btn-ghost">Get Started Free →</a>
+      </div>
+
+      <!-- Pro (featured) -->
+      <div class="pricing-card featured reveal reveal-delay-2">
+        <div class="pricing-badge">✦ Most Popular</div>
+        <div class="pricing-plan">Pro</div>
+        <div class="pricing-price">
+          <span class="pricing-currency">$</span>
+          <span class="pricing-amount" data-monthly="49" data-yearly="39">49</span>
+          <span class="pricing-period">/month</span>
+        </div>
+        <p class="pricing-desc">For growing teams who need powerful automation without limits.</p>
+        <ul class="pricing-features-list">
+          <li class="pricing-feature-item included"><span class="check-icon yes">✓</span>Unlimited workflows</li>
+          <li class="pricing-feature-item included"><span class="check-icon yes">✓</span>25,000 task executions/mo</li>
+          <li class="pricing-feature-item included"><span class="check-icon yes">✓</span>500+ integrations</li>
+          <li class="pricing-feature-item included"><span class="check-icon yes">✓</span>AI Workflow Builder</li>
+          <li class="pricing-feature-item included"><span class="check-icon yes">✓</span>Team collaboration (10 seats)</li>
+          <li class="pricing-feature-item included"><span class="check-icon yes">✓</span>Real-time analytics</li>
+          <li class="pricing-feature-item included"><span class="check-icon yes">✓</span>3 Custom AI Agents</li>
+          <li class="pricing-feature-item included"><span class="check-icon yes">✓</span>Priority support</li>
+        </ul>
+        <a href="#" class="btn btn-primary">Start Free Trial →</a>
+      </div>
+
+      <!-- Business -->
+      <div class="pricing-card reveal reveal-delay-3">
+        <div class="pricing-plan">Business</div>
+        <div class="pricing-price">
+          <span class="pricing-currency">$</span>
+          <span class="pricing-amount" data-monthly="99" data-yearly="79">99</span>
+          <span class="pricing-period">/month</span>
+        </div>
+        <p class="pricing-desc">Enterprise-grade automation for organizations that need maximum scale and control.</p>
+        <ul class="pricing-features-list">
+          <li class="pricing-feature-item included"><span class="check-icon yes">✓</span>Everything in Pro</li>
+          <li class="pricing-feature-item included"><span class="check-icon yes">✓</span>Unlimited task executions</li>
+          <li class="pricing-feature-item included"><span class="check-icon yes">✓</span>Unlimited seats</li>
+          <li class="pricing-feature-item included"><span class="check-icon yes">✓</span>Unlimited AI Agents</li>
+          <li class="pricing-feature-item included"><span class="check-icon yes">✓</span>SOC 2 compliance</li>
+          <li class="pricing-feature-item included"><span class="check-icon yes">✓</span>SSO / SAML</li>
+          <li class="pricing-feature-item included"><span class="check-icon yes">✓</span>Dedicated success manager</li>
+          <li class="pricing-feature-item included"><span class="check-icon yes">✓</span>SLA guarantee</li>
+        </ul>
+        <a href="#" class="btn btn-ghost">Contact Sales →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     TESTIMONIALS
+     ========================================================= -->
+<section class="testimonials section">
+  <div class="container">
+    <div class="testimonials-header reveal">
+      <div class="section-label">Testimonials</div>
+      <h2 class="section-heading">Loved by teams<br/><span class="grad-text">who move fast</span></h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testi-card reveal reveal-delay-1">
+        <div class="testi-stars">
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+        </div>
+        <p class="testi-quote">FlowMind AI replaced three internal tools and an entire ops role. We now process 10,000+ leads weekly with zero manual effort. The ROI was visible within the first week.</p>
+        <div class="testi-author">
+          <div class="testi-avatar a1">SR</div>
+          <div>
+            <div class="testi-name">Sarah Reynolds</div>
+            <div class="testi-role">Head of Operations, Growthly</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal reveal-delay-2">
+        <div class="testi-stars">
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+        </div>
+        <p class="testi-quote">We were skeptical about another automation tool. FlowMind AI's AI Agents changed our minds completely. Our customer support team saved 200 hours in the first month alone.</p>
+        <div class="testi-author">
+          <div class="testi-avatar a2">MK</div>
+          <div>
+            <div class="testi-name">Marcus Kim</div>
+            <div class="testi-role">CTO, HelixCloud</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal reveal-delay-3">
+        <div class="testi-stars">
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+        </div>
+        <p class="testi-quote">The visual workflow builder is genuinely magical. I described our onboarding process in plain English and FlowMind built the entire flow in under two minutes. Our team was speechless.</p>
+        <div class="testi-author">
+          <div class="testi-avatar a3">JP</div>
+          <div>
+            <div class="testi-name">Julia Park</div>
+            <div class="testi-role">Product Lead, NovaBridge</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     FAQ
+     ========================================================= -->
+<section class="faq section">
+  <div class="container">
+    <div class="faq-header reveal">
+      <div class="section-label">FAQ</div>
+      <h2 class="section-heading">Questions? We've<br/><span class="grad-text">got answers.</span></h2>
+      <p class="section-sub">Everything you need to know before you start building.</p>
+    </div>
+    <div class="faq-list reveal">
+      <div class="faq-item">
+        <button class="faq-question">
+          How quickly can I set up my first workflow?
+          <span class="faq-chevron">▾</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Most users have their first workflow live within 5 minutes of signing up. Simply connect your apps, describe what you want to automate in plain English, and FlowMind AI generates and tests the workflow for you. No coding or technical skills required whatsoever.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          What integrations does FlowMind AI support?
+          <span class="faq-chevron">▾</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">FlowMind AI supports 500+ integrations including Slack, Gmail, HubSpot, Salesforce, Notion, Airtable, GitHub, Jira, Stripe, Shopify, and virtually any app with an API. Pro and Business plans include access to our Zapier-compatible webhook system for custom integrations.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          Is my data secure with FlowMind AI?
+          <span class="faq-chevron">▾</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Absolutely. FlowMind AI is SOC 2 Type II certified and uses AES-256 encryption at rest and TLS 1.3 in transit. We never store your credentials — all third-party connections use OAuth 2.0. Business plan customers also get dedicated infrastructure with GDPR and HIPAA compliance options available.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          Can I cancel or change my plan anytime?
+          <span class="faq-chevron">▾</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Yes — you can upgrade, downgrade, or cancel at any time with no questions asked. If you cancel, your workflows stay active until the end of your billing period. We also offer a full refund within 30 days if FlowMind AI doesn't meet your expectations.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          What happens if I exceed my task execution limit?
+          <span class="faq-chevron">▾</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">We'll notify you when you're at 80% of your limit. Rather than cutting off your automations, we pause queued tasks and let you choose to upgrade, purchase a top-up bundle, or wait for your next cycle. Your workflows will never silently fail — you're always in control.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     FINAL CTA
+     ========================================================= -->
+<section class="final-cta">
+  <div class="final-cta-orb-1"></div>
+  <div class="final-cta-orb-2"></div>
+  <div class="final-cta-inner reveal">
+    <div class="section-label" style="margin: 0 auto 24px;">Get Started Today</div>
+    <h2 class="final-cta-heading">
+      Stop doing manually<br/>what AI can do<br/><span class="grad-text">for you, forever.</span>
+    </h2>
+    <p class="final-cta-sub">Join 2,400+ teams already saving 20+ hours per week with FlowMind AI. Start your free trial today — no credit card required.</p>
+    <div class="final-cta-actions">
+      <a href="#pricing" class="btn btn-primary">
+        Start Your Free Trial →
+      </a>
+      <a href="#demo" class="btn btn-ghost">
+        See It In Action
+      </a>
+    </div>
+    <p class="final-cta-note">14-day free trial · No credit card · Cancel anytime · Setup in 5 minutes</p>
+  </div>
+</section>
+
+<!-- =========================================================
+     FOOTER
+     ========================================================= -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <!-- Brand -->
+      <div>
+        <div class="footer-brand-logo">
+          <div class="nav-logo-icon">
+            <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 2L14.5 5.5V12.5L9 16L3.5 12.5V5.5L9 2Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+              <path d="M9 6L11.5 7.5V10.5L9 12L6.5 10.5V7.5L9 6Z" fill="white"/>
+            </svg>
+          </div>
+          FlowMind AI
+        </div>
+        <p class="footer-brand-desc">The AI-powered workflow automation platform built for modern teams who refuse to waste time on repetitive work.</p>
+        <div class="footer-socials">
+          <a class="social-btn" href="#" aria-label="Twitter">𝕏</a>
+          <a class="social-btn" href="#" aria-label="LinkedIn">in</a>
+          <a class="social-btn" href="#" aria-label="GitHub">⌥</a>
+          <a class="social-btn" href="#" aria-label="YouTube">▶</a>
+        </div>
+      </div>
+
+      <!-- Product -->
+      <div>
+        <div class="footer-col-title">Product</div>
+        <ul class="footer-links">
+          <li><a href="#">Features</a></li>
+          <li><a href="#">Integrations</a></li>
+          <li><a href="#">Pricing</a></li>
+          <li><a href="#">Changelog</a></li>
+          <li><a href="#">Roadmap</a></li>
+          <li><a href="#">Status</a></li>
+        </ul>
+      </div>
+
+      <!-- Company -->
+      <div>
+        <div class="footer-col-title">Company</div>
+        <ul class="footer-links">
+          <li><a href="#">About</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Resources -->
+      <div>
+        <div class="footer-col-title">Resources</div>
+        <ul class="footer-links">
+          <li><a href="#">Documentation</a></li>
+          <li><a href="#">API Reference</a></li>
+          <li><a href="#">Community</a></li>
+          <li><a href="#">Templates</a></li>
+          <li><a href="#">Support</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-copyright">© 2026 FlowMind AI, Inc. All rights reserved.</p>
+      <div class="footer-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- =========================================================
+     JAVASCRIPT
+     ========================================================= -->
+<script>
+/* --- Sticky nav on scroll --- */
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 20);
+});
+
+/* --- Mobile hamburger --- */
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+hamburger.addEventListener('click', () => {
+  mobileMenu.classList.toggle('open');
+});
+
+/* --- FAQ accordion --- */
+document.querySelectorAll('.faq-question').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement;
+    const answer = item.querySelector('.faq-answer');
+    const isOpen = item.classList.contains('open');
+
+    // Close all
+    document.querySelectorAll('.faq-item').forEach(i => {
+      i.classList.remove('open');
+      i.querySelector('.faq-answer').style.maxHeight = null;
+    });
+
+    if (!isOpen) {
+      item.classList.add('open');
+      answer.style.maxHeight = answer.scrollHeight + 'px';
+    }
+  });
+});
+
+/* --- Pricing toggle (monthly/yearly) --- */
+const toggle = document.getElementById('billing-toggle');
+let isYearly = false;
+
+toggle.addEventListener('click', () => {
+  isYearly = !isYearly;
+  toggle.classList.toggle('yearly', isYearly);
+
+  const labels = document.querySelectorAll('.pricing-toggle-label');
+  labels[0].classList.toggle('active', !isYearly);
+  labels[1].classList.toggle('active', isYearly);
+
+  document.querySelectorAll('.pricing-amount').forEach(el => {
+    el.textContent = isYearly ? el.dataset.yearly : el.dataset.monthly;
+  });
+});
+
+/* --- Scroll reveal --- */
+const revealEls = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+revealEls.forEach(el => observer.observe(el));
+
+/* --- Demo filter pills --- */
+document.querySelectorAll('.demo-pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    document.querySelectorAll('.demo-pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+  });
+});
+
+/* --- Smooth animated number counter on scroll (stats) --- */
+function animateCount(el, target, duration = 1500) {
+  const start = performance.now();
+  const format = target >= 1000 ? n => n.toLocaleString() : n => n.toString();
+  
+  function update(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 3);
+    el.textContent = format(Math.floor(ease * target));
+    if (progress < 1) requestAnimationFrame(update);
+    else el.textContent = format(target);
+  }
+  requestAnimationFrame(update);
+}
+
+// Trigger counter animation when stats enter viewport
+const statEls = [
+  { selector: '.mockup-stat-val.blue',   target: 12847 },
+  { selector: '.mockup-stat-val.violet', target: 428,   suffix: ' hrs' },
+  { selector: '.mockup-stat-val.mint',   target: 64 },
+];
+
+const statsObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      statEls.forEach(s => {
+        const el = document.querySelector(s.selector);
+        if (el) animateCount(el, s.target);
+      });
+      statsObserver.disconnect();
+    }
+  });
+}, { threshold: 0.5 });
+
+const statSection = document.querySelector('.mockup-stats');
+if (statSection) statsObserver.observe(statSection);
+</script>
+</body>
+</html>
