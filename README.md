@@ -12,4 +12,4 @@ This project demonstrates a high-conversion startup website design including:
 • Responsive design  
 
 Live Demo:
-https://yourusername.github.io/saas-landing-flowmind-ai
+https://huzaifamansoor489-ai.github.io/saas-landing-flowmind-ai
